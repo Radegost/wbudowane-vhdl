@@ -1,0 +1,30 @@
+ghdl -a hello.vhdl
+ghdl -e hello_world
+ghdl -r hello_world
+
+ ghdl -r adder_tb --vcd=adder.vcd
+ 
+ gtkwave adder.vcd
+
+
+ghdl -a hello.vhdl:
+    This command creates or updates a file work-obj93.cf,
+    which describes the library work. On GNU/Linux,
+    this command generates a file hello.o, which is
+    the object file corresponding to your VHDL program.
+    The object file is not created on Windows.
+
+
+    Then, you have to build an executable file.
+
+ghdl -e hello_world
+
+
+The -e option means elaborate. With this option,
+GHDL creates code in order to elaborate a design,
+with the hello_world entity at the top of the hierarchy.
+
+  On GNU/Linux, if you have enabled the
+  GCC backend during the compilation of
+  GHDL, an executable program called
+  hello_world which can be run is generated:

@@ -1,0 +1,4 @@
+v 4
+file . "example.vhd" "8c6c89b5ff44c3dc1e96346bd3069bd7b583d026" "20170309172154.933":
+  entity example at 1( 0) + 0 on 13;
+  architecture synthetic of example at 12( 135) + 0 on 14;
