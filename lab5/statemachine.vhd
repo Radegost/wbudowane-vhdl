@@ -1,4 +1,4 @@
-
+USE work.txt_util.ALL;
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -25,43 +25,40 @@ begin
 --      stan_teraz <= stan_potem;
 -- 	 end if;
 --   end if;
--- end process;
 
 state_advance: process(clk, reset)
 begin
-  if(reset = '0') then
-    if rising_edge(clk) then
-      if pusher = '1' and stan_teraz = S3 then
-        stan_teraz <=S1;
-      end if;
-      if pusher = '1' then
-       stan_teraz <= stan_potem;
-  	 end if;
-      if pusher = '0' and stan_teraz = S2 then
-        stan_teraz <=S0;
-      end if;
-     else
-       stan_teraz <= S0;
-     end if;
+  if rising_edge(clk) then
+    if pusher = '0' and stan_teraz = S2 then
+      stan_teraz <= S0;
+    end if;
+    if pusher = '1' then
+     stan_teraz <= stan_potem;
+	 end if;
   end if;
 end process;
 
 next_state: process(stan_teraz)
 begin
-
+    -- print(str(pusher));
    case stan_teraz is
      when S0 =>
-				stan_potem <= S1;
-				driver <= "00";
+             stan_potem <= S1;
+             driver <= "00";
 	  when S1 =>
-				stan_potem <= S2;
-				driver <= "01";
+              stan_potem <= S2;
+              driver <= "10";
 	  when S2 =>
-				stan_potem <= S3;
-				driver <= "10";
+          if pusher = '1' then
+              stan_potem <= S3;
+          end if;
+          if pusher = '0' then
+              stan_potem <= S0;
+          end if;
+          driver <= "11";
 	  when S3 =>
-				stan_potem <= S1;
-				driver <= "11";
+  				    stan_potem <= S1;
+              driver <= "01";
    end case;
 end process;
 

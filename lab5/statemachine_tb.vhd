@@ -54,32 +54,36 @@ BEGIN
    stim_proc: process
    begin
       -- hold reset state for 100 ns.
-      wait for 100 ns;
+      wait for 10 ns;
+      -- print(str(driver));
+    assert driver = "00"			-- test what we've got
+      report "1.expected state '00' got '" & str(driver) & "'";
 
-      wait for clk_period*10;
-		pusher <= '1';				   -- allow state transitions now
-		wait for clk_period * 2;	-- let some states transit to some other...
-
-    assert driver = "01"			-- test what we've got
-		  report "1.expected state '01' got '" & str(driver) & "'";
-
-      wait for clk_period;
-      pusher <= '1';					-- disable state transitions
-  		wait for clk_period * 2;
-      assert driver = "11"			-- test what we've got
-        report "1.expected state '10' got '" & str(driver) & "'";
-
-
-    wait for clk_period;
-		pusher <= '0';					-- disable state transitions
-		wait for clk_period * 2;
-    reset <= '1';
-    wait for clk_period * 2;
-    reset <= '0';
-		assert driver = "00" --"00" --tutaj dalej jest 01 --
-			report "expected state '00' on driver not achieved -- got '" & str(driver) & "'";
-
-      wait;
+    pusher <= '1';
+		wait for clk_period * 1;
+    assert driver = "10"
+		  report "2.expected state '10' got '" & str(driver) & "'";
+    wait for clk_period * 1;
+    assert driver = "11"
+  		report "3.expected state '11' got '" & str(driver) & "'";
+    wait for clk_period * 1;
+    assert driver = "01"
+      report "4.expected state '01' got '" & str(driver) & "'";
+    wait for clk_period * 1;
+    assert driver = "10"
+      report "5.expected state '10' got '" & str(driver) & "'";
+    wait for clk_period * 1;
+    assert driver = "11"
+      report "6.expected state '11' got '" & str(driver) & "'";
+    -- zerujemy
+    pusher <= '0';
+    wait for clk_period * 1;
+    assert driver = "00"
+      report "7.expected state '00' got '" & str(driver) & "'";
+    pusher <= '1';
+    wait for clk_period * 1;
+    assert driver = "10"
+      report "8.expected state '10' got '" & str(driver) & "'";
+		wait;
    end process;
-
 END;
